@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "418421966540",
+    "firebase_url": "https://camamb-9d6d9.firebaseio.com",
+    "project_id": "camamb-9d6d9",
+    "storage_bucket": "camamb-9d6d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418421966540:android:2502eb33357943417ca469",
+        "android_client_info": {
+          "package_name": "com.asish.Pitcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418421966540-4n6l900afcit7veclhkoc0bi1g03f387.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.asish.Pitcher",
+            "certificate_hash": "dcb44a794dbaee76e8fe8f371e08aa535d777138"
+          }
+        },
+        {
+          "client_id": "418421966540-7vbgohee7l144aqpr6fgtje0lcpphsc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXGVFz78wQzKl6bpAJt_-oyAWCEkH3blU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418421966540-7vbgohee7l144aqpr6fgtje0lcpphsc8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
