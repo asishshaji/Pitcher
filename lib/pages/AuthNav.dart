@@ -18,6 +18,7 @@ class _AuthNavigationState extends State<AuthNavigation> {
   @override
   void initState() {
     super.initState();
+
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     _authenticationBloc.add(AppLoaded());
   }
@@ -46,6 +47,7 @@ class _AuthNavigationState extends State<AuthNavigation> {
                 child: Text(state.message),
               );
             }
+            return Text("");
           },
         ),
       ),

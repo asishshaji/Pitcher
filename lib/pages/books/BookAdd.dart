@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Pitcher/data/model/book.dart';
 import 'package:Pitcher/data/user_firestore_repo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,7 +29,7 @@ class AddNewBookScreenState extends State<AddNewBookScreen> {
     setState(() {
       _image = File(pickedFile.path);
     });
-    _imageUrl = await FireStoreActions().uploadImage("books", _image);
+    _imageUrl = await DatabaseServices().uploadImage("books", _image);
     setState(() {});
   }
 
@@ -54,18 +55,21 @@ class AddNewBookScreenState extends State<AddNewBookScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: _image == null
-                        ? IconButton(
-                            icon: Icon(
-                              Mdi.upload,
+                    child: Card(
+                      elevation: 2,
+                      child: _image == null
+                          ? IconButton(
+                              icon: Icon(
+                                Mdi.upload,
+                              ),
+                              onPressed: getImage,
+                            )
+                          : Image.file(
+                              _image,
+                              height: 120,
+                              width: 120,
                             ),
-                            onPressed: getImage,
-                          )
-                        : Image.file(
-                            _image,
-                            height: 120,
-                            width: 120,
-                          ),
+                    ),
                   ),
                   Expanded(
                     child: Text(
@@ -76,6 +80,9 @@ class AddNewBookScreenState extends State<AddNewBookScreen> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Form(
                 key: _formKey,
@@ -163,19 +170,26 @@ class AddNewBookScreenState extends State<AddNewBookScreen> {
                           _formKey.currentState.save();
                           Set tags = {};
                           tags.addAll([
-                            ..._bookName.split(" "),
-                            ..._author.split(" "),
+                            ..._bookName.toLowerCase().split(" "),
+                            ..._author.toLowerCase().split(" "),
                           ]);
                           Book book = Book(
                             author: _author,
-                            bookImageUrl: _imageUrl,
+                            bookImageUrl: _imageUrl ??
+                                "https://images-na.ssl-images-amazon.com/images/I/61isRprUQ+L.jpg",
                             bookTitle: _bookName,
                             publishedYear: _year,
                             tags: tags,
                           );
-                          bool added = await FireStoreActions().addBook(book);
-                          if (added) {
-                            Navigator.pop(context);
+                          DocumentReference docRef =
+                              await DatabaseServices().addBook(book);
+                          print(docRef);
+                          if (docRef != null) {
+                            Navigator.pushNamed(context, '/addSummaryBook',
+                                arguments: {
+                                  "book": book,
+                                  "id": docRef.id,
+                                });
                           }
                         }
                       },

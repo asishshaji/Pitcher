@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class User extends Equatable {
+class PitcherUser extends Equatable {
   final String userid;
   final String username;
   final String upiId;
@@ -11,11 +11,12 @@ class User extends Equatable {
   final String location;
   final String imageUrl;
   final Set interests;
+
   // set containing document references of posts by users
   final Set bookPosts;
   final String timeStamp;
 
-  User({
+  PitcherUser({
     @required this.userid,
     @required this.username,
     @required this.timeStamp,

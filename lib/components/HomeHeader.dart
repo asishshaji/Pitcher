@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mdi/mdi.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -31,7 +30,7 @@ class HomeHeader extends StatelessWidget {
             width: 10,
           ),
           Text(
-            "Hey, ${userName}",
+            "Hey, $userName",
             style: GoogleFonts.dmSans(
               fontSize: 26,
             ),

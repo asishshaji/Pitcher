@@ -2,15 +2,18 @@ import 'package:Pitcher/blocs/auth/authentication_bloc.dart';
 import 'package:Pitcher/data/firebase_auth_repo.dart';
 import 'package:Pitcher/pages/AuthNav.dart';
 import 'package:Pitcher/routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  FirebaseAuthRepo firebaseAuthRepo = FirebaseAuthRepo();
+  final AuthRepo firebaseAuthRepo = AuthRepo();
 
   @override
   Widget build(BuildContext context) {

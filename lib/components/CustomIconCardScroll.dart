@@ -38,7 +38,7 @@ class CustomIconCardScroll extends StatelessWidget {
             children: [
               CustomIconCard(
                 iconData: Mdi.bookshelf,
-                onClick: () => Navigator.of(context).pushNamed("/addNewBook"),
+                onClick: () => Navigator.of(context).pushNamed("/search"),
               ),
               CustomIconCard(
                 iconData: Mdi.musicBox,

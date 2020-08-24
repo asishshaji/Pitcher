@@ -3,6 +3,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class GoogleButtonCustom extends StatelessWidget {
   final Function function;
+
   const GoogleButtonCustom({Key key, this.function}) : super(key: key);
 
   @override

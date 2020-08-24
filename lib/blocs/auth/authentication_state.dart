@@ -14,7 +14,7 @@ class AuthenticationLoading extends AuthenticationState {}
 class AuthenticationNotAuthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final User user;
+  final PitcherUser user;
 
   AuthenticationAuthenticated({@required this.user});
 

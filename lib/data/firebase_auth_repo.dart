@@ -1,33 +1,39 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'model/user.dart';
 
-class FirebaseAuthRepo {
+class AuthRepo {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  FirebaseAuthRepo({FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn})
+  AuthRepo({FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = GoogleSignIn();
 
-  Future<User> getUser() async {
-    FirebaseUser firebaseUser = await _firebaseAuth.currentUser();
-    return User(
+  Future<PitcherUser> getUser() async {
+    User firebaseUser = _firebaseAuth.currentUser;
+    return PitcherUser(
       userid: firebaseUser.email,
-      phoneNumber: firebaseUser.phoneNumber,
+      phoneNumber: firebaseUser.phoneNumber ?? "0",
       username: firebaseUser.displayName,
-      imageUrl: firebaseUser.photoUrl,
+      imageUrl: firebaseUser.photoURL,
       timeStamp: DateTime.now().millisecondsSinceEpoch.toString(),
     );
   }
 
-  Future<User> signInUsingGoogle() async {
+  Future<String> getUserID() async {
+    User firebaseUser = _firebaseAuth.currentUser;
+    return firebaseUser.email;
+  }
+
+  Future<PitcherUser> signInUsingGoogle() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
@@ -38,7 +44,7 @@ class FirebaseAuthRepo {
   }
 
   Future<bool> isAuthenticated() async {
-    final currentUser = await _firebaseAuth.currentUser();
+    final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
@@ -48,7 +54,4 @@ class FirebaseAuthRepo {
       _googleSignIn.signOut(),
     ]);
   }
-
-  @override
-  List<Object> get props => throw UnimplementedError();
 }

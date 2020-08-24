@@ -1,20 +1,21 @@
 import 'dart:async';
 
+import 'package:Pitcher/data/firebase_auth_repo.dart';
+import 'package:Pitcher/data/model/user.dart';
 import 'package:Pitcher/data/user_firestore_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
-import 'package:Pitcher/data/firebase_auth_repo.dart';
-import 'package:Pitcher/data/model/user.dart';
 
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final FirebaseAuthRepo firebaseAuthRepo;
+  final AuthRepo firebaseAuthRepo;
+
   AuthenticationBloc(this.firebaseAuthRepo) : super(AuthenticationInitial());
 
   @override
@@ -54,10 +55,11 @@ class AuthenticationBloc
       UserLoginPressed event) async* {
     yield AuthenticationLoading();
     try {
-      User user = await firebaseAuthRepo.signInUsingGoogle();
+      PitcherUser user = await firebaseAuthRepo.signInUsingGoogle();
       print(user.toMap());
-      FireStoreActions().addUser(user);
-      yield AuthenticationAuthenticated(user: user);
+
+      bool userAdded = await DatabaseServices().addUser(user);
+      if (userAdded) yield AuthenticationAuthenticated(user: user);
     } catch (e) {
       yield AuthenticationFailure(message: e.toString());
     }
